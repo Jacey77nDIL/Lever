@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #5FAE7C;
+  --color-brand-light: #EAF6EE;
+  --color-gain: #5FAE7C;
+  --color-gain-light: #EAF6EE;
+  --color-loss: #E07A6B;
+  --color-loss-light: #FDE8E5;
+  --color-surface: #FAFAF9;
+  
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-surface);
+    color: #1a1a1a;
+  }
+}
