@@ -134,10 +134,10 @@ async def initial_sync():
     await pull_stock_prices(force=True)
 
 def start_scheduler():
-    # Run market status check at 09:00 Mon-Fri WAT (Africa/Lagos)
+    # Run market status check at 09:15 Mon-Fri WAT (Africa/Lagos) to allow for opening delays or holidays
     scheduler.add_job(
         check_market_status,
-        CronTrigger(day_of_week='mon-fri', hour=9, minute=0, timezone='Africa/Lagos')
+        CronTrigger(day_of_week='mon-fri', hour=9, minute=15, timezone='Africa/Lagos')
     )
     
     # Run price pull every hour from 09:00 to 16:00 Mon-Fri WAT

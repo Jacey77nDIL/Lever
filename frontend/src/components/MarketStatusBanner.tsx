@@ -17,7 +17,7 @@ export default function MarketStatusBanner() {
 
   return (
     <div className={`w-full py-2 px-4 text-center text-sm font-medium ${isOpen ? 'bg-[var(--color-brand-light)] text-[var(--color-brand)]' : 'bg-gray-100 text-gray-500'}`}>
-      {isOpen ? 'Market Open · closes 4:00 PM WAT' : 'Market Closed · opens Monday 9:00 AM WAT'}
+      {isOpen ? 'Market Open · closes 4:00 PM WAT' : `Market Closed · ${statusData?.next_open_at || 'opens Monday 9:00 AM WAT'}`}
     </div>
   );
 }
