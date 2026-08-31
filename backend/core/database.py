@@ -17,8 +17,16 @@ async def get_db():
     async with AsyncSessionLocal() as session:
         yield session
 
+from upstash_redis.asyncio import Redis as UpstashRedis
+
 # Redis setup
-redis_client = redis.from_url(settings.REDIS_URL, decode_responses=True)
+if settings.UPSTASH_REDIS_REST_URL and settings.UPSTASH_REDIS_REST_TOKEN:
+    redis_client = UpstashRedis(
+        url=settings.UPSTASH_REDIS_REST_URL, 
+        token=settings.UPSTASH_REDIS_REST_TOKEN
+    )
+else:
+    redis_client = redis.from_url(settings.REDIS_URL, decode_responses=True)
 
 async def get_redis():
     return redis_client

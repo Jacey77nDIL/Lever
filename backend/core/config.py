@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     # DB Settings
     DATABASE_URL: str
     REDIS_URL: str = "redis://localhost:6379/0"
+    UPSTASH_REDIS_REST_URL: str | None = None
+    UPSTASH_REDIS_REST_TOKEN: str | None = None
     
     # Security
     SECRET_KEY: str
