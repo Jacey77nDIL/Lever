@@ -72,7 +72,7 @@ export default function ProfilePage() {
         <h2 className="text-xl font-bold mb-4">Trade History</h2>
         
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          {trades?.length > 0 ? (
+          {Array.isArray(trades) && trades.length > 0 ? (
             <ul className="divide-y divide-gray-100">
               {trades.map((trade: any) => {
                 const isPositiveDelta = trade.cash_delta >= 0;

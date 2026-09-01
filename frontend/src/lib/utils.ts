@@ -1,4 +1,5 @@
-export function formatCurrency(amount: number | string): string {
+export function formatCurrency(amount: number | string | null | undefined): string {
+  if (amount == null) return "NGN 0.00";
   const num = typeof amount === 'string' ? parseFloat(amount) : amount;
   return new Intl.NumberFormat('en-NG', {
     style: 'currency',
@@ -8,7 +9,8 @@ export function formatCurrency(amount: number | string): string {
   }).format(num);
 }
 
-export function formatPercent(percent: number | string): string {
+export function formatPercent(percent: number | string | null | undefined): string {
+  if (percent == null) return "0.00%";
   const num = typeof percent === 'string' ? parseFloat(percent) : percent;
   return new Intl.NumberFormat('en-US', {
     style: 'percent',
