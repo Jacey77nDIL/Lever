@@ -61,7 +61,7 @@ async def open_position(
     result = await db.execute(stmt)
     oi = result.scalars().first()
     if not oi:
-        oi = OpenInterest(symbol=stock.symbol)
+        oi = OpenInterest(symbol=stock.symbol, total_long_shares=Decimal("0"), total_short_shares=Decimal("0"))
         db.add(oi)
 
     if stock.shares_outstanding and stock.shares_outstanding > 0:
