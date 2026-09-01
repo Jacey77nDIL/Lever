@@ -33,3 +33,7 @@ app.include_router(market.router, prefix="/market", tags=["market"])
 app.include_router(market.router, tags=["market"]) # includes /stocks
 app.include_router(trading.router, tags=["trading"]) # includes /positions, /trades
 app.include_router(portfolio.router, tags=["portfolio"]) # includes /portfolio, /leaderboard
+
+@app.get("/health", tags=["health"])
+async def health_check():
+    return {"status": "ok", "message": "Lever API is running"}
