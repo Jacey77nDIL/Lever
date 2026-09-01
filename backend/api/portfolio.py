@@ -21,19 +21,27 @@ async def get_portfolio(
     result = await db.execute(stmt)
     history = result.scalars().all()
     
-    # Generate response
-    # We should compute the real-time value here if needed, but for the history we use snapshots
-    # To get current real-time value, we'd need to fetch positions. For now, use the last snapshot or current cash if none.
+    # Generate real-time response
+    from models.position import Position, PositionStatus, PositionSide
+    from models.stock import Stock
+    from decimal import Decimal
     
-    if history:
-        last_snap = history[-1]
-        cash_balance = last_snap.cash_balance
-        positions_value = last_snap.positions_value
-        total_equity = last_snap.total_equity
-    else:
-        cash_balance = current_user.cash_balance
-        positions_value = 0.0
-        total_equity = current_user.cash_balance
+    stmt = select(Position, Stock).join(Stock, Position.symbol == Stock.symbol).where(Position.user_id == current_user.id, Position.status == PositionStatus.OPEN)
+    result = await db.execute(stmt)
+    rows = result.all()
+    
+    positions_value = Decimal("0.0")
+    for pos, stock in rows:
+        current_price = stock.current_price
+        if pos.side == PositionSide.LONG:
+            unrealized_pnl = (current_price - pos.entry_price) * pos.quantity
+        else:
+            unrealized_pnl = (pos.entry_price - current_price) * pos.quantity
+            
+        positions_value += pos.margin_used + unrealized_pnl
+
+    cash_balance = current_user.cash_balance
+    total_equity = cash_balance + positions_value
         
     history_data = [
         PortfolioHistorySnapshot(captured_at=h.captured_at, total_equity=h.total_equity) for h in history
